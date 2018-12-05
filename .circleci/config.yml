@@ -1,0 +1,44 @@
+---
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.11
+    steps:
+      - checkout
+
+      # format (inspired by https://tip.golang.org/misc/git/pre-commit)
+      - run: |
+          # find all go files
+          ALL_GO_FILES=$(find . -type f -iname "*.go")
+          [ -z "$ALL_GO_FILES" ] && exit 0
+          # check for unformatted go files
+          UNFORMATTED_GO_FILES=$(gofmt -l $ALL_GO_FILES)
+          [ -z "$UNFORMATTED_GO_FILES" ] && exit 0
+          # print results
+          for UNFORMATTED_GO_FILE in $UNFORMATTED_GO_FILES; do
+            echo "unformatted go file: $UNFORMATTED_GO_FILE"
+          done
+          exit 1
+
+      # lint
+      - run: go get github.com/golang/lint/golint
+      - run: golint -set_exit_status $(go list ./...)
+
+      # build
+      - run: go mod vendor
+      - run: go vet   -v               $(go list ./... | grep -v /vendor/)
+      - run: go build -v               $(go list ./... | grep -v /vendor/)
+      - run: go test  -v -race         $(go list ./... | grep -v /vendor/)
+
+      # extensive testing and code coverage
+      - run: |
+          echo "" > coverage.txt
+          for FNAME in $(go list ./... | grep -v vendor); do
+            go test -race -coverprofile=profile.out -covermode=atomic ${FNAME}
+            if [ -f profile.out ]; then
+              cat profile.out >> coverage.txt
+              rm profile.out
+            fi
+          done
+      - run: bash <(curl -s https://codecov.io/bash)

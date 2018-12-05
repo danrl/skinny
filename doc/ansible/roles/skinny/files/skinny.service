@@ -1,0 +1,4 @@
+[Service]
+ExecStart=skinnyd --config=/etc/skinny/config.yml
+Restart=always
+RestartSec=10

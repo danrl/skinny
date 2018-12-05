@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+/*
+ * The Control service is used to expose configuration and state information.
+ */
+
+message StatusRequest {}
+message StatusResponse {
+    string Name = 1;
+    uint64 Increment = 2;
+    string Timeout = 3;
+    uint64 Promised = 4;
+    uint64 ID = 5;
+    string Holder = 6;
+    message Peer {
+        string Name = 1;
+    }
+    repeated Peer Peers = 7;
+}
+
+service Control {
+    rpc Status(StatusRequest) returns (StatusResponse);
+}

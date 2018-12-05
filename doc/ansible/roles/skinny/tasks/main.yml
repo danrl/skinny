@@ -1,0 +1,32 @@
+---
+- name: clone skinny repository
+  git:
+    repo: https://github.com/danrl/skinny.git
+    dest: /root/go/src/github.com/danrl/skinny/
+  notify: restart skinny service
+
+- name: install skinny 
+  shell: go build -o /usr/local/bin/skinnyd .
+  args:
+    chdir: /root/go/src/github.com/danrl/skinny/cmd/skinnyd/
+
+- name: create skinny configuration directory
+  file:
+    path: /etc/skinny
+    state: directory
+    mode: 0755
+
+- name: copy skinny configuration file
+  copy:
+    src: "{{ instance_name }}.yml"
+    dest: /etc/skinny/config.yml
+  notify: restart skinny service
+
+- name: copy skinny unit file
+  copy:
+    src: skinny.service
+    dest: /etc/systemd/system/skinny.service
+    owner: root
+    group: root
+    mode: "u=rw,g=r,o=r"
+  notify: restart skinny service

@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+/*
+ * The Consensus services is based on a Paxos-inspired protocol, simplified for
+ * demonstrating and teaching purposes. It is used here to to reach consensus on
+ * the holder of a lock.
+ */
+
+// Phase 1: Promise
+message PromiseRequest {
+    uint64 ID = 1;
+}
+message PromiseResponse {
+    bool Promised = 1;
+    // ID of previuosly accepted commit
+    uint64 ID = 2;
+    // Holder of the lock, according to previously accepted commit
+    string Holder = 3; 
+}
+
+// Phase 2: Commit
+message CommitRequest {
+    uint64 ID = 1;
+    string Holder = 2;
+}
+message CommitResponse {
+    bool Committed = 1;
+}
+
+service Consensus {
+    rpc Promise (PromiseRequest) returns (PromiseResponse);
+    rpc Commit (CommitRequest) returns (CommitResponse);
+}

@@ -1,0 +1,14 @@
+---
+name: london
+increment: 1
+timeout: -5s
+listen: 0.0.0.0:9000
+peers:
+- name: oregon
+  address: oregon.skinny.cakelie.net:9000
+- name: spaulo
+  address: spaulo.skinny.cakelie.net:9000
+- name: sydney
+  address: sydney.skinny.cakelie.net:9000
+- name: taiwan
+  address: taiwan.skinny.cakelie.net:9000

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+/*
+ * The Lock service is used by clients to acquire or release the lock.
+ */
+
+message AcquireRequest {
+    string Holder = 1;
+}
+message AcquireResponse {
+    bool Acquired = 1;
+    string Holder = 2;
+}
+
+message ReleaseRequest {}
+message ReleaseResponse {
+    bool Released = 1;
+}
+
+service Lock {
+  rpc Acquire(AcquireRequest) returns (AcquireResponse);
+  rpc Release(ReleaseRequest) returns (ReleaseResponse);
+}

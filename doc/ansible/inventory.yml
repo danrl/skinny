@@ -1,0 +1,13 @@
+---
+instances:
+  hosts:
+    oregon:
+      ansible_ssh_host: oregon.skinny.cakelie.net
+    spaulo:
+      ansible_ssh_host: spaulo.skinny.cakelie.net
+    london:
+      ansible_ssh_host: london.skinny.cakelie.net
+    taiwan:
+      ansible_ssh_host: taiwan.skinny.cakelie.net
+    sydney:
+      ansible_ssh_host: sydney.skinny.cakelie.net

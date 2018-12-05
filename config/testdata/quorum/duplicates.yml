@@ -1,0 +1,11 @@
+---
+timeout: 5s
+instances:
+- name: london
+  address: london.skinny.cakelie.net:9000
+- name: oregon
+  address: oregon.skinny.cakelie.net:9000
+- name: london
+  address: london.skinny.cakelie.net:9000
+- name: oregon
+  address: oregon.skinny.cakelie.net:9000

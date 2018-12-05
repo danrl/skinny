@@ -20,7 +20,7 @@ func (in *Instance) Promise(ctx context.Context, req *pb.PromiseRequest) (*pb.Pr
 	if in.id > 0 {
 		promise.ID = in.id
 		promise.Holder = in.holder
-		attachment = fmt.Sprintf(" (attached previously comitted ID %v and holder `%v`)", in.id, in.holder)
+		attachment = fmt.Sprintf(" (attached previously committed ID %v and holder `%v`)", in.id, in.holder)
 	}
 
 	if req.ID > in.promised {
@@ -149,7 +149,7 @@ func (in *Instance) propose() bool {
 	return in.isMajority(yay)
 }
 
-// commit asks the quorum to accept the acquisiton or release of a lock
+// commit asks the quorum to accept the acquisition or release of a lock
 func (in *Instance) commit(id uint64, holder string) bool {
 	type response struct {
 		from      string
@@ -205,7 +205,7 @@ func (in *Instance) commit(id uint64, holder string) bool {
 	in.holder = holder
 
 	// count the vote
-	yay := 1 // we just comitted our own data. make it count.
+	yay := 1 // we just committed our own data. make it count.
 	for r := range responses {
 		if r.committed {
 			yay++

@@ -1,14 +1,30 @@
 ---
+- name: install gcc
+  apt:
+    name: gcc
+    update_cache: yes
+
+- name: install go and protoc
+  shell: snap install --classic {{ item }}
+  loop:
+    - go
+    - protobuf
+
+- name: install mage
+  shell: go get -u github.com/magefile/mage
+
 - name: clone skinny repository
   git:
     repo: https://github.com/danrl/skinny.git
-    dest: /root/go/src/github.com/danrl/skinny/
+    dest: /skinny
+    force: yes
   notify: restart skinny service
 
-- name: install skinny 
-  shell: go build -o /usr/local/bin/skinnyd .
+- name: build skinny 
+  shell: /root/go/bin/mage builddeps && /root/go/bin/mage
   args:
-    chdir: /root/go/src/github.com/danrl/skinny/cmd/skinnyd/
+    chdir: /skinny
+  notify: restart skinny service
 
 - name: create skinny configuration directory
   file:

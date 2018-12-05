@@ -64,8 +64,6 @@ func Test() error {
 
 // Build binary executables.
 func Build() error {
-	mg.Deps(Test)
-
 	for _, name := range targets {
 		err := sh.RunV("go", "build", "-v", "-o", "./bin/"+name, "./cmd/"+name)
 		if err != nil {

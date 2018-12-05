@@ -4,7 +4,6 @@
   become: yes
   become_method: sudo
   roles:
-    - golang
     - role: skinny
       vars:
          instance_name: "{{ inventory_hostname_short }}"

@@ -43,8 +43,8 @@ A Skinny instance is started by running `skinnyd`, preferably with the `--config
     ./bin/skinnyd --config doc/examples/skinnyd/london.yml
 
 The Skinny instance will add the peers it finds in the configuration file to the quorum.
-For each instance in the quorum a separate `skinnyd` process using an individual configuration file needs to be started.
-Instance are expected to be able to reach out to each other via HTTP/2.
+For each instance in the quorum, a separate `skinnyd` process is started.
+Instances are expected to be able to reach out to each other via HTTP/2.
 To run multiple instances locally, it is advised to assign each instance its own port and listen on `localhost`.
 
 A typical Skinny configuration file for a Skinny instance in a quorum of five looks like this:
@@ -71,7 +71,7 @@ All options are required.
 | Option            | Description |
 | ----------------- | ----------- |
 | **Name**          | The name of the Skinny instance. Should be unique within the quorum to avoid confusion. |
-| **Increment**     | The number by which the instance increases the round number (ID). Must be unique within the quorum to prevent duelling proposers. |
+| **Increment**     | The number by which the instance increases the round number (ID). Must be unique within the quorum to prevent dueling proposers. |
 | **Timeout**       | The timeout for Remote Procedure Calls (RPCs) made to other Skinny instances in the quorum. |
 | **Listen**        | The listening address of the Skinny instance. Other instances can connect to this address for RPCs. |
 | **Peers**         | The complete list of the *other* instances of the quorum. Should contain an even number of peers. |
@@ -80,7 +80,7 @@ All options are required.
 
 
 There must be one configuration file for each Skinny instance in the quorum.
-Example configuration files are available in the [`doc/examples`](doc/examples/) directory.
+Example configuration files are available in the [`doc/examples`](doc/examples) directory.
 
 
 ## The Client Tool (skinnyctl)
@@ -128,7 +128,7 @@ responsible for releasing the lock after leaving the critical section of an appl
 
 To acquire a lock in behalf of a holder named *Beaver* simply run:
 
-    ./bin/skinnyctl acquire "Beaver"
+    $ ./bin/skinnyctl acquire "Beaver"
     📡 connecting to london (london.skinny.cakelie.net:9000)
     🔒 acquiring lock
     ✅ success
@@ -137,7 +137,7 @@ Once *Beaver* is done accessing the protected resource the lock should be releas
 acquire it.
 
 
-    ./bin/skinnyctl release
+    $ ./bin/skinnyctl release
     📡 connecting to london (london.skinny.cakelie.net:9000)
     🔓 releasing lock
     ✅ success
@@ -147,30 +147,38 @@ acquire it.
 
 A quorum's state can be fetched by issuing a request for status information to every instance in the quorum.
 
-    ./bin/skinnyctl status
+    $ ./bin/skinnyctl status
+    NAME     INCREMENT   PROMISED   ID   HOLDER   LAST SEEN
+    london   1           1          1    beaver   now
+    oregon   2           1          1    beaver   now
+    spaulo   3           1          1    beaver   now
+    sydney   4           1          1    beaver   now
+    taiwan   5           1          1    beaver   now
 
 To continously monitor a quorum's state use the `--watch` option.
 
-    ./bin/skinnyctl status --watch
+    $ ./bin/skinnyctl status --watch
+
+![](doc/img/skinnyctl-status-watch.gif)
 
 
 ## Bonus: Lab Infrastructure via Terraform
 
-Terraform definitions and a *skinny_instance* module are available in the [`doc/terraform'`](docs/terraform/) directory.
+Terraform definitions and a *skinny_instance* module are available in the [`doc/terraform`](doc/terraform) directory.
 Change the `variables.tf` to your needs and initialize and deploy the environment via:
 
-    terraform init
-    terraform apply
+    $ terraform init
+    $ terraform apply
 
 It takes a couple of minutes to fire up all the resources. Be patient.
 
 
 ## Bonus: Lab Software Deployment via Ansible
 
-Ansible playbooks for deploying a Skinny quorum are available in the [`doc/ansible'`](docs/ansible/) directory.
+Ansible playbooks for deploying a Skinny quorum are available in the [`doc/ansible`](doc/ansible) directory.
 Adjust the hostnames in the `inventory.yml` file and run the playbook:
 
-    ansible-playbook -i inventory.yml site.yml
+    $ ansible-playbook -i inventory.yml site.yml
 
 It takes a while to fetch the source code and build the binaries on each instance.
 While you wait, how's the weather today? Well, well...

@@ -17,10 +17,10 @@ func TestInstanceStatusRPC(t *testing.T) {
 		id:        23,
 		holder:    "alien",
 		peers: []*peer{
-			&peer{
+			{
 				name: "peer-1",
 			},
-			&peer{
+			{
 				name: "peer-2",
 			},
 		},

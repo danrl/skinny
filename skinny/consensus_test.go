@@ -221,7 +221,7 @@ func TestInstanceCommit(t *testing.T) {
 			t.Errorf("expected `%v`, got `%v`", true, got)
 		}
 
-		// leader must have commited new values to itself
+		// leader must have committed new values to itself
 		if leader.in.id != 5 {
 			t.Errorf("expected `%v`, got `%v`", 5, leader.in.id)
 		}
@@ -253,7 +253,7 @@ func TestInstanceCommit(t *testing.T) {
 			t.Errorf("expected `%v`, got `%v`", false, got)
 		}
 
-		// leader must have commited new values to itself
+		// leader must have committed new values to itself
 		if leader.in.id != 5 {
 			t.Errorf("expected `%v`, got `%v`", 5, leader.in.id)
 		}
@@ -284,7 +284,7 @@ func TestInstanceCommit(t *testing.T) {
 			t.Errorf("expected `%v`, got `%v`", true, got)
 		}
 
-		// leader must have commited new values to itself)
+		// leader must have committed new values to itself)
 		if leader.in.id != 5 {
 			t.Errorf("expected `%v`, got `%v`", 5, leader.in.id)
 		}

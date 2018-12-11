@@ -21,10 +21,6 @@ jobs:
           done
           exit 1
 
-      # lint
-      - run: go get github.com/golang/lint/golint
-      - run: golint -set_exit_status $(go list ./...)
-
       # build
       - run: go mod vendor
       - run: go vet   -v               $(go list ./... | grep -v /vendor/)

@@ -59,7 +59,7 @@ func TestNewInstanceConfig(t *testing.T) {
 		if cfg.Increment != 1 {
 			t.Errorf("expected increment `1`, got `%v`", cfg.Increment)
 		}
-		if cfg.Timeout != time.Duration(500*time.Millisecond) {
+		if cfg.Timeout != 500*time.Millisecond {
 			t.Errorf("expected timeout `500ms`, got `%v`", cfg.Timeout)
 		}
 		if cfg.Listen != "0.0.0.0:9000" {
@@ -111,7 +111,7 @@ func TestNewQuorumConfig(t *testing.T) {
 		if err != nil {
 			t.Fatalf("expected `nil`, got `%v`", err)
 		}
-		if cfg.Timeout != time.Duration(5*time.Second) {
+		if cfg.Timeout != 5*time.Second {
 			t.Errorf("expected timeout `5s`, got `%v`", cfg.Timeout)
 		}
 		if len(cfg.Instances) != 5 {
@@ -137,7 +137,7 @@ func TestCheckTimeout(t *testing.T) {
 
 	t.Run("good timeout", func(t *testing.T) {
 		var expected error
-		got := checkTimeout(time.Duration(100 * time.Millisecond))
+		got := checkTimeout(100 * time.Millisecond)
 		if got != expected {
 			t.Errorf("expected `%v`, got `%v`", expected, got)
 		}

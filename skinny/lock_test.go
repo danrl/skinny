@@ -20,7 +20,7 @@ func TestInstanceAcquireRPC(t *testing.T) {
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
-		if resp.Acquired != true {
+		if !resp.Acquired {
 			t.Errorf("expected `%v`, got `%v`", true, resp.Acquired)
 		}
 		if resp.Holder != "alien" {
@@ -41,7 +41,7 @@ func TestInstanceAcquireRPC(t *testing.T) {
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
-		if resp.Acquired != false {
+		if resp.Acquired {
 			t.Errorf("expected `%v`, got `%v`", false, resp.Acquired)
 		}
 		if resp.Holder != "beaver" {
@@ -60,12 +60,18 @@ func TestInstanceAcquireRPC(t *testing.T) {
 		peer1 := newMockInstance(t, "peer-1", 2, time.Second)
 		defer peer1.destroy()
 		peer1.latency = 2 * time.Second
-		leader.in.AddPeer(peer1.in.name, consensus.NewConsensusClient(peer1.conn))
+		err := leader.in.AddPeer(peer1.in.name, consensus.NewConsensusClient(peer1.conn))
+		if err != nil {
+			t.Fatalf("add peer: %v", err)
+		}
 
 		peer2 := newMockInstance(t, "peer-2", 3, time.Second)
 		defer peer2.destroy()
 		peer2.latency = 2 * time.Second
-		leader.in.AddPeer(peer2.in.name, consensus.NewConsensusClient(peer2.conn))
+		err = leader.in.AddPeer(peer2.in.name, consensus.NewConsensusClient(peer2.conn))
+		if err != nil {
+			t.Fatalf("add peer: %v", err)
+		}
 
 		resp, err := leader.in.Acquire(context.Background(), &lock.AcquireRequest{
 			Holder: "alien",
@@ -73,7 +79,7 @@ func TestInstanceAcquireRPC(t *testing.T) {
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
-		if resp.Acquired != false {
+		if resp.Acquired {
 			t.Errorf("expected `%v`, got `%v`", false, resp.Acquired)
 		}
 		if resp.Holder != "" {
@@ -90,7 +96,7 @@ func TestInstanceReleaseRPC(t *testing.T) {
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
-		if resp.Released != true {
+		if !resp.Released {
 			t.Errorf("expected `%v`, got `%v`", true, resp.Released)
 		}
 	})
@@ -106,7 +112,7 @@ func TestInstanceReleaseRPC(t *testing.T) {
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
-		if resp.Released != true {
+		if !resp.Released {
 			t.Errorf("expected `%v`, got `%v`", true, resp.Released)
 		}
 	})
@@ -122,12 +128,18 @@ func TestInstanceReleaseRPC(t *testing.T) {
 		peer1 := newMockInstance(t, "peer-1", 2, time.Second)
 		defer peer1.destroy()
 		peer1.latency = 2 * time.Second
-		leader.in.AddPeer(peer1.in.name, consensus.NewConsensusClient(peer1.conn))
+		err := leader.in.AddPeer(peer1.in.name, consensus.NewConsensusClient(peer1.conn))
+		if err != nil {
+			t.Fatalf("add peer: %v", err)
+		}
 
 		peer2 := newMockInstance(t, "peer-2", 3, time.Second)
 		defer peer2.destroy()
 		peer2.latency = 2 * time.Second
-		leader.in.AddPeer(peer2.in.name, consensus.NewConsensusClient(peer2.conn))
+		err = leader.in.AddPeer(peer2.in.name, consensus.NewConsensusClient(peer2.conn))
+		if err != nil {
+			t.Fatalf("add peer: %v", err)
+		}
 
 		leader.in.holder = "beaver"
 
@@ -135,7 +147,7 @@ func TestInstanceReleaseRPC(t *testing.T) {
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
-		if resp.Released != false {
+		if resp.Released {
 			t.Errorf("expected `%v`, got `%v`", false, resp.Released)
 		}
 	})

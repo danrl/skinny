@@ -17,7 +17,6 @@ type Instance struct {
 	name      string
 	increment uint64
 	timeout   time.Duration
-	statefile string
 	promised  uint64
 	id        uint64
 	holder    string

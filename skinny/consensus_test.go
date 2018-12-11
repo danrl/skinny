@@ -18,7 +18,7 @@ func TestInstancePromiseRPC(t *testing.T) {
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
-		if resp.Promised != true {
+		if !resp.Promised {
 			t.Errorf("expected `%v`, got `%v`", true, resp.Promised)
 		}
 		if resp.ID != 0 {
@@ -42,7 +42,7 @@ func TestInstancePromiseRPC(t *testing.T) {
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
-		if resp.Promised != false {
+		if resp.Promised {
 			t.Errorf("expected `%v`, got `%v`", false, resp.Promised)
 		}
 		if resp.ID != 1 {
@@ -78,7 +78,7 @@ func TestInstanceCommitRPC(t *testing.T) {
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
-		if resp.Committed != true {
+		if !resp.Committed {
 			t.Errorf("expected `%v`, got `%v`", true, resp.Committed)
 		}
 	})
@@ -97,7 +97,7 @@ func TestInstanceCommitRPC(t *testing.T) {
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
-		if resp.Committed != false {
+		if resp.Committed {
 			t.Errorf("expected `%v`, got `%v`", false, resp.Committed)
 		}
 
@@ -125,14 +125,20 @@ func TestInstancePropose(t *testing.T) {
 
 		peer1 := newMockInstance(t, "peer-1", 2, time.Second)
 		defer peer1.destroy()
-		leader.in.AddPeer(peer1.in.name, consensus.NewConsensusClient(peer1.conn))
+		err := leader.in.AddPeer(peer1.in.name, consensus.NewConsensusClient(peer1.conn))
+		if err != nil {
+			t.Fatalf("add peer: %v", err)
+		}
 
 		peer2 := newMockInstance(t, "peer-2", 3, time.Second)
 		defer peer2.destroy()
-		leader.in.AddPeer(peer2.in.name, consensus.NewConsensusClient(peer2.conn))
+		err = leader.in.AddPeer(peer2.in.name, consensus.NewConsensusClient(peer2.conn))
+		if err != nil {
+			t.Fatalf("add peer: %v", err)
+		}
 
 		got := leader.in.propose()
-		if got != true {
+		if !got {
 			t.Errorf("expected `%v`, got `%v`", true, got)
 		}
 	})
@@ -147,15 +153,21 @@ func TestInstancePropose(t *testing.T) {
 
 		peer1 := newMockInstance(t, "peer-1", 2, time.Second)
 		defer peer1.destroy()
-		leader.in.AddPeer(peer1.in.name, consensus.NewConsensusClient(peer1.conn))
+		err := leader.in.AddPeer(peer1.in.name, consensus.NewConsensusClient(peer1.conn))
+		if err != nil {
+			t.Fatalf("add peer: %v", err)
+		}
 
 		peer2 := newMockInstance(t, "peer-2", 3, time.Second)
 		defer peer2.destroy()
 		peer2.latency = 500 * time.Millisecond
-		leader.in.AddPeer(peer2.in.name, consensus.NewConsensusClient(peer2.conn))
+		err = leader.in.AddPeer(peer2.in.name, consensus.NewConsensusClient(peer2.conn))
+		if err != nil {
+			t.Fatalf("add peer: %v", err)
+		}
 
 		got := leader.in.propose()
-		if got != true {
+		if !got {
 			t.Errorf("expected `%v`, got `%v`", true, got)
 		}
 	})
@@ -170,19 +182,25 @@ func TestInstancePropose(t *testing.T) {
 
 		peer1 := newMockInstance(t, "peer-1", 2, time.Second)
 		defer peer1.destroy()
-		leader.in.AddPeer(peer1.in.name, consensus.NewConsensusClient(peer1.conn))
+		err := leader.in.AddPeer(peer1.in.name, consensus.NewConsensusClient(peer1.conn))
+		if err != nil {
+			t.Fatalf("add peer: %v", err)
+		}
 
 		peer2 := newMockInstance(t, "peer-2", 3, time.Second)
 		defer peer2.destroy()
 		peer2.latency = 500 * time.Millisecond // to make sure we learn from peer1 before reaching a majority
-		leader.in.AddPeer(peer2.in.name, consensus.NewConsensusClient(peer2.conn))
+		err = leader.in.AddPeer(peer2.in.name, consensus.NewConsensusClient(peer2.conn))
+		if err != nil {
+			t.Fatalf("add peer: %v", err)
+		}
 
 		peer1.in.promised = 23
 		peer1.in.id = 23
 		peer1.in.holder = "beaver"
 
 		got := leader.in.propose()
-		if got != true {
+		if !got {
 			t.Errorf("expected `%v`, got `%v`", true, got)
 		}
 
@@ -210,14 +228,20 @@ func TestInstanceCommit(t *testing.T) {
 
 		peer1 := newMockInstance(t, "peer-1", 2, time.Second)
 		defer peer1.destroy()
-		leader.in.AddPeer(peer1.in.name, consensus.NewConsensusClient(peer1.conn))
+		err := leader.in.AddPeer(peer1.in.name, consensus.NewConsensusClient(peer1.conn))
+		if err != nil {
+			t.Fatalf("add peer: %v", err)
+		}
 
 		peer2 := newMockInstance(t, "peer-2", 3, time.Second)
 		defer peer2.destroy()
-		leader.in.AddPeer(peer2.in.name, consensus.NewConsensusClient(peer2.conn))
+		err = leader.in.AddPeer(peer2.in.name, consensus.NewConsensusClient(peer2.conn))
+		if err != nil {
+			t.Fatalf("add peer: %v", err)
+		}
 
 		got := leader.in.commit(5, "alien")
-		if got != true {
+		if !got {
 			t.Errorf("expected `%v`, got `%v`", true, got)
 		}
 
@@ -241,15 +265,21 @@ func TestInstanceCommit(t *testing.T) {
 		peer1 := newMockInstance(t, "peer-1", 2, time.Second)
 		defer peer1.destroy()
 		peer1.latency = 500 * time.Millisecond
-		leader.in.AddPeer(peer1.in.name, consensus.NewConsensusClient(peer1.conn))
+		err := leader.in.AddPeer(peer1.in.name, consensus.NewConsensusClient(peer1.conn))
+		if err != nil {
+			t.Fatalf("add peer: %v", err)
+		}
 
 		peer2 := newMockInstance(t, "peer-2", 3, time.Second)
 		defer peer2.destroy()
 		peer2.latency = 500 * time.Millisecond
-		leader.in.AddPeer(peer2.in.name, consensus.NewConsensusClient(peer2.conn))
+		err = leader.in.AddPeer(peer2.in.name, consensus.NewConsensusClient(peer2.conn))
+		if err != nil {
+			t.Fatalf("add peer: %v", err)
+		}
 
 		got := leader.in.commit(5, "alien")
-		if got != false {
+		if got {
 			t.Errorf("expected `%v`, got `%v`", false, got)
 		}
 
@@ -272,15 +302,21 @@ func TestInstanceCommit(t *testing.T) {
 
 		peer1 := newMockInstance(t, "peer-1", 2, time.Second)
 		defer peer1.destroy()
-		leader.in.AddPeer(peer1.in.name, consensus.NewConsensusClient(peer1.conn))
+		err := leader.in.AddPeer(peer1.in.name, consensus.NewConsensusClient(peer1.conn))
+		if err != nil {
+			t.Fatalf("add peer: %v", err)
+		}
 
 		peer2 := newMockInstance(t, "peer-2", 3, time.Second)
 		defer peer2.destroy()
 		peer2.fail = true
-		leader.in.AddPeer(peer2.in.name, consensus.NewConsensusClient(peer2.conn))
+		err = leader.in.AddPeer(peer2.in.name, consensus.NewConsensusClient(peer2.conn))
+		if err != nil {
+			t.Fatalf("add peer: %v", err)
+		}
 
 		got := leader.in.commit(5, "alien")
-		if got != true {
+		if !got {
 			t.Errorf("expected `%v`, got `%v`", true, got)
 		}
 

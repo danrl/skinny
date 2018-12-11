@@ -52,5 +52,9 @@ func main() {
 		fmt.Fprintf(os.Stderr, "listen: %v", err)
 		os.Exit(1)
 	}
-	grpcServer.Serve(listener)
+	err = grpcServer.Serve(listener)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "serve: %v", err)
+		os.Exit(1)
+	}
 }

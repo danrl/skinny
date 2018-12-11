@@ -31,7 +31,10 @@ func TestIntegration(t *testing.T) {
 				// do not self-peer
 				continue
 			}
-			mi.in.AddPeer(peer.in.name, consensus.NewConsensusClient(peer.conn))
+			err := mi.in.AddPeer(peer.in.name, consensus.NewConsensusClient(peer.conn))
+			if err != nil {
+				t.Fatalf("add peer: %v", err)
+			}
 		}
 	}
 
@@ -74,7 +77,7 @@ func TestIntegration(t *testing.T) {
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
-		if resp.Acquired != true {
+		if !resp.Acquired {
 			t.Fatalf("expected `%v`, got `%v`", true, resp.Acquired)
 		}
 		if resp.Holder != "beaver" {
@@ -111,7 +114,7 @@ func TestIntegration(t *testing.T) {
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
-		if resp.Acquired != false {
+		if resp.Acquired {
 			t.Fatalf("expected `%v`, got `%v`", false, resp.Acquired)
 		}
 		if resp.Holder != "beaver" {
@@ -137,7 +140,7 @@ func TestIntegration(t *testing.T) {
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
-		if resp.Released != true {
+		if !resp.Released {
 			t.Fatalf("expected `%v`, got `%v`", true, resp.Released)
 		}
 		// check quorum state
@@ -162,7 +165,7 @@ func TestIntegration(t *testing.T) {
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
-		if resp.Acquired != true {
+		if !resp.Acquired {
 			t.Fatalf("expected `%v`, got `%v`", true, resp.Acquired)
 		}
 		if resp.Holder != "alien" {

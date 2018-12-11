@@ -33,7 +33,6 @@ var statusCmd = &cobra.Command{
 		type report struct {
 			name      string
 			resp      *control.StatusResponse
-			comment   string
 			timestamp time.Time
 		}
 

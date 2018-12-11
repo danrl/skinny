@@ -31,7 +31,10 @@ func TestIntegration(t *testing.T) {
 				// do not self-peer
 				continue
 			}
-			mi.in.AddPeer(peer.in.name, consensus.NewConsensusClient(peer.conn))
+			err := mi.in.AddPeer(peer.in.name, consensus.NewConsensusClient(peer.conn))
+			if err != nil {
+				t.Fatalf("add peer: %v", err)
+			}
 		}
 	}
 

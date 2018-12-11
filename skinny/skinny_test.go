@@ -149,7 +149,7 @@ func TestInstanceAddPeer(t *testing.T) {
 func TestInstanceIsMajority(t *testing.T) {
 	t.Run("lonely instance", func(t *testing.T) {
 		in := &Instance{}
-		if got := in.isMajority(0); got  {
+		if got := in.isMajority(0); got {
 			t.Errorf("expected `%v`, got `%v`", false, got)
 		}
 		if got := in.isMajority(1); !got {
@@ -160,10 +160,10 @@ func TestInstanceIsMajority(t *testing.T) {
 	t.Run("two instances", func(t *testing.T) {
 		in := &Instance{}
 		in.peers = append(in.peers, &peer{})
-		if got := in.isMajority(0); got  {
+		if got := in.isMajority(0); got {
 			t.Errorf("expected `%v`, got `%v`", false, got)
 		}
-		if got := in.isMajority(1); got  {
+		if got := in.isMajority(1); got {
 			t.Errorf("expected `%v`, got `%v`", false, got)
 		}
 		if got := in.isMajority(2); !got {
@@ -174,10 +174,10 @@ func TestInstanceIsMajority(t *testing.T) {
 	t.Run("quorum of odd instances", func(t *testing.T) {
 		in := &Instance{}
 		in.peers = append(in.peers, &peer{}, &peer{})
-		if got := in.isMajority(0); got  {
+		if got := in.isMajority(0); got {
 			t.Errorf("expected `%v`, got `%v`", false, got)
 		}
-		if got := in.isMajority(1); got  {
+		if got := in.isMajority(1); got {
 			t.Errorf("expected `%v`, got `%v`", false, got)
 		}
 		if got := in.isMajority(2); !got {
@@ -191,13 +191,13 @@ func TestInstanceIsMajority(t *testing.T) {
 	t.Run("quorum of even instances", func(t *testing.T) {
 		in := &Instance{}
 		in.peers = append(in.peers, &peer{}, &peer{}, &peer{})
-		if got := in.isMajority(0); got  {
+		if got := in.isMajority(0); got {
 			t.Errorf("expected `%v`, got `%v`", false, got)
 		}
-		if got := in.isMajority(1); got  {
+		if got := in.isMajority(1); got {
 			t.Errorf("expected `%v`, got `%v`", false, got)
 		}
-		if got := in.isMajority(2); got  {
+		if got := in.isMajority(2); got {
 			t.Errorf("expected `%v`, got `%v`", false, got)
 		}
 		if got := in.isMajority(3); !got {

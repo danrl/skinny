@@ -8,6 +8,11 @@ import (
 	"github.com/danrl/skinny/proto/consensus"
 )
 
+const (
+	beaver = "beaver"
+	alien  = "alien"
+)
+
 func TestInstancePromiseRPC(t *testing.T) {
 	t.Run("simple promise", func(t *testing.T) {
 		in := &Instance{}
@@ -33,7 +38,7 @@ func TestInstancePromiseRPC(t *testing.T) {
 		in := &Instance{
 			promised: 23,
 			id:       1,
-			holder:   "beaver",
+			holder:   beaver,
 		}
 
 		resp, err := in.Promise(context.Background(), &consensus.PromiseRequest{
@@ -48,8 +53,8 @@ func TestInstancePromiseRPC(t *testing.T) {
 		if resp.ID != 1 {
 			t.Errorf("expected `%v`, got `%v`", 0, resp.ID)
 		}
-		if resp.Holder != "beaver" {
-			t.Errorf("expected `%v`, got `%v`", "beaver", resp.Holder)
+		if resp.Holder != beaver {
+			t.Errorf("expected `%v`, got `%v`", beaver, resp.Holder)
 		}
 
 		// instances must not have changed its internal state
@@ -59,8 +64,8 @@ func TestInstancePromiseRPC(t *testing.T) {
 		if in.id != 1 {
 			t.Errorf("expected `%v`, got `%v`", 1, in.id)
 		}
-		if in.holder != "beaver" {
-			t.Errorf("expected `%v`, got `%v`", "beaver", in.holder)
+		if in.holder != beaver {
+			t.Errorf("expected `%v`, got `%v`", beaver, in.holder)
 		}
 	})
 }
@@ -73,7 +78,7 @@ func TestInstanceCommitRPC(t *testing.T) {
 
 		resp, err := in.Commit(context.Background(), &consensus.CommitRequest{
 			ID:     1,
-			Holder: "alien",
+			Holder: alien,
 		})
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
@@ -87,7 +92,7 @@ func TestInstanceCommitRPC(t *testing.T) {
 		in := &Instance{
 			promised: 23,
 			id:       5,
-			holder:   "beaver",
+			holder:   beaver,
 		}
 
 		resp, err := in.Commit(context.Background(), &consensus.CommitRequest{
@@ -108,8 +113,8 @@ func TestInstanceCommitRPC(t *testing.T) {
 		if in.id != 5 {
 			t.Errorf("expected `%v`, got `%v`", 5, in.id)
 		}
-		if in.holder != "beaver" {
-			t.Errorf("expected `%v`, got `%v`", "beaver", in.holder)
+		if in.holder != beaver {
+			t.Errorf("expected `%v`, got `%v`", beaver, in.holder)
 		}
 	})
 }
@@ -197,7 +202,7 @@ func TestInstancePropose(t *testing.T) {
 
 		peer1.in.promised = 23
 		peer1.in.id = 23
-		peer1.in.holder = "beaver"
+		peer1.in.holder = beaver
 
 		got := leader.in.propose()
 		if !got {
@@ -211,8 +216,8 @@ func TestInstancePropose(t *testing.T) {
 		if leader.in.id != 23 {
 			t.Errorf("expected `%v`, got `%v`", 23, leader.in.id)
 		}
-		if leader.in.holder != "beaver" {
-			t.Errorf("expected `%v`, got `%v`", "beaver", leader.in.holder)
+		if leader.in.holder != beaver {
+			t.Errorf("expected `%v`, got `%v`", beaver, leader.in.holder)
 		}
 	})
 }
@@ -240,7 +245,7 @@ func TestInstanceCommit(t *testing.T) {
 			t.Fatalf("add peer: %v", err)
 		}
 
-		got := leader.in.commit(5, "alien")
+		got := leader.in.commit(5, alien)
 		if !got {
 			t.Errorf("expected `%v`, got `%v`", true, got)
 		}
@@ -249,8 +254,8 @@ func TestInstanceCommit(t *testing.T) {
 		if leader.in.id != 5 {
 			t.Errorf("expected `%v`, got `%v`", 5, leader.in.id)
 		}
-		if leader.in.holder != "alien" {
-			t.Errorf("expected `%v`, got `%v`", "alien", leader.in.holder)
+		if leader.in.holder != alien {
+			t.Errorf("expected `%v`, got `%v`", alien, leader.in.holder)
 		}
 	})
 
@@ -278,7 +283,7 @@ func TestInstanceCommit(t *testing.T) {
 			t.Fatalf("add peer: %v", err)
 		}
 
-		got := leader.in.commit(5, "alien")
+		got := leader.in.commit(5, alien)
 		if got {
 			t.Errorf("expected `%v`, got `%v`", false, got)
 		}
@@ -287,8 +292,8 @@ func TestInstanceCommit(t *testing.T) {
 		if leader.in.id != 5 {
 			t.Errorf("expected `%v`, got `%v`", 5, leader.in.id)
 		}
-		if leader.in.holder != "alien" {
-			t.Errorf("expected `%v`, got `%v`", "alien", leader.in.holder)
+		if leader.in.holder != alien {
+			t.Errorf("expected `%v`, got `%v`", alien, leader.in.holder)
 		}
 	})
 
@@ -315,7 +320,7 @@ func TestInstanceCommit(t *testing.T) {
 			t.Fatalf("add peer: %v", err)
 		}
 
-		got := leader.in.commit(5, "alien")
+		got := leader.in.commit(5, alien)
 		if !got {
 			t.Errorf("expected `%v`, got `%v`", true, got)
 		}
@@ -324,8 +329,8 @@ func TestInstanceCommit(t *testing.T) {
 		if leader.in.id != 5 {
 			t.Errorf("expected `%v`, got `%v`", 5, leader.in.id)
 		}
-		if leader.in.holder != "alien" {
-			t.Errorf("expected `%v`, got `%v`", "alien", leader.in.holder)
+		if leader.in.holder != alien {
+			t.Errorf("expected `%v`, got `%v`", alien, leader.in.holder)
 		}
 	})
 }

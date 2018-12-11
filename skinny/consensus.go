@@ -61,7 +61,7 @@ func (in *Instance) propose() bool {
 		holder   string
 	}
 
-	in.promised = in.promised + in.increment
+	in.promised += in.increment
 
 	responses := make(chan *response)
 	ctx, cancel := context.WithTimeout(context.Background(), in.timeout)

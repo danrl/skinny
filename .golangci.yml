@@ -5,6 +5,9 @@ run:
 
 linters:
   enable-all: true
+  disable:
+  - gochecknoglobals
+  - gochecknoinits
 
 linters-settings:
   gofmt:

@@ -15,7 +15,7 @@ import (
 // in testing an inconsistent quorum.
 func TestIntegration(t *testing.T) {
 	if testing.Short() {
-		t.Skip("skipping test in short mode.")
+		t.Skip("skipping integration test in short mode")
 	}
 
 	// set up a quorum of five
@@ -71,24 +71,25 @@ func TestIntegration(t *testing.T) {
 	 */
 	// beaver asks instance-5 for the lock
 	{
-		resp, err := quorum[4].in.Acquire(context.Background(), &lock.AcquireRequest{
+		req := &lock.AcquireRequest{
 			Holder: "beaver",
-		})
+		}
+		resp, err := quorum[4].in.Acquire(context.Background(), req)
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
 		if !resp.Acquired {
 			t.Fatalf("expected `%v`, got `%v`", true, resp.Acquired)
 		}
-		if resp.Holder != "beaver" {
-			t.Fatalf("expected `%v`, got `%v`", "beaver", resp.Holder)
+		if resp.Holder != req.Holder {
+			t.Fatalf("expected `%v`, got `%v`", req.Holder, resp.Holder)
 		}
 		// check quorum state
 		good := 0
 		for _, mi := range quorum {
 			if mi.in.promised == quorum[4].in.promised &&
 				mi.in.id == quorum[4].in.id &&
-				mi.in.holder == "beaver" {
+				mi.in.holder == req.Holder {
 				good++
 			}
 		}
@@ -108,9 +109,10 @@ func TestIntegration(t *testing.T) {
 	 */
 	// alien asks instance-4 for the lock, but beaver still holds it
 	{
-		resp, err := quorum[3].in.Acquire(context.Background(), &lock.AcquireRequest{
+		req := &lock.AcquireRequest{
 			Holder: "alien",
-		})
+		}
+		resp, err := quorum[3].in.Acquire(context.Background(), req)
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
@@ -136,7 +138,8 @@ func TestIntegration(t *testing.T) {
 
 	// beaver tells instance-5 to release the lock
 	{
-		resp, err := quorum[4].in.Release(context.Background(), &lock.ReleaseRequest{})
+		req := &lock.ReleaseRequest{}
+		resp, err := quorum[4].in.Release(context.Background(), req)
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
@@ -159,24 +162,25 @@ func TestIntegration(t *testing.T) {
 
 	// alien asks instance-4 for the lock
 	{
-		resp, err := quorum[3].in.Acquire(context.Background(), &lock.AcquireRequest{
+		req := &lock.AcquireRequest{
 			Holder: "alien",
-		})
+		}
+		resp, err := quorum[3].in.Acquire(context.Background(), req)
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
 		if !resp.Acquired {
 			t.Fatalf("expected `%v`, got `%v`", true, resp.Acquired)
 		}
-		if resp.Holder != "alien" {
-			t.Fatalf("expected `%v`, got `%v`", "alien", resp.Holder)
+		if resp.Holder != req.Holder {
+			t.Fatalf("expected `%v`, got `%v`", req.Holder, resp.Holder)
 		}
 		// check quorum state
 		good := 0
 		for _, mi := range quorum {
 			if mi.in.promised == quorum[3].in.promised &&
 				mi.in.id == quorum[3].in.id &&
-				mi.in.holder == "alien" {
+				mi.in.holder == req.Holder {
 				good++
 			}
 		}

@@ -3,6 +3,8 @@ package skinny
 import (
 	"context"
 	"fmt"
+	"math/rand"
+	"time"
 
 	pb "github.com/danrl/skinny/proto/lock"
 )
@@ -10,10 +12,7 @@ import (
 // Acquire tries to acquire a lock
 func (in *Instance) Acquire(ctx context.Context, req *pb.AcquireRequest) (*pb.AcquireResponse, error) {
 	in.mu.Lock()
-	defer in.mu.Unlock()
-
 	fmt.Printf("client: acquire lock on behalf of '%v'\n", req.Holder)
-
 	retries := 0
 retry:
 	promised := in.propose()
@@ -28,25 +27,31 @@ retry:
 	} else {
 		if retries < 3 {
 			retries++
+			backoff := time.Duration(retries) * 2 * time.Millisecond
+			jitter := time.Duration(rand.Int63n(1000)) * time.Microsecond
+			fmt.Printf("waiting %v before retry #%v\n", backoff+jitter, retries)
+
+			in.mu.Unlock()
+			time.Sleep(backoff + jitter)
+			in.mu.Lock()
+
 			fmt.Printf("retry #%v\n", retries)
 			goto retry
 		}
 	}
-
-	// Report results.
-	return &pb.AcquireResponse{
+	resp := &pb.AcquireResponse{
 		Acquired: in.holder == req.Holder,
 		Holder:   in.holder,
-	}, nil
+	}
+	in.mu.Unlock()
+
+	return resp, nil
 }
 
 // Release releases a previously held lock
 func (in *Instance) Release(ctx context.Context, req *pb.ReleaseRequest) (*pb.ReleaseResponse, error) {
 	in.mu.Lock()
-	defer in.mu.Unlock()
-
 	fmt.Println("client: release lock")
-
 	retries := 0
 retry:
 	promised := in.propose()
@@ -55,12 +60,22 @@ retry:
 	} else {
 		if retries < 3 {
 			retries++
+			backoff := time.Duration(retries) * 2 * time.Millisecond
+			jitter := time.Duration(rand.Int63n(1000)) * time.Microsecond
+			fmt.Printf("waiting %v before retry #%v\n", backoff+jitter, retries)
+
+			in.mu.Unlock()
+			time.Sleep(backoff + jitter)
+			in.mu.Lock()
+
 			fmt.Printf("retry #%v\n", retries)
 			goto retry
 		}
 	}
-
-	return &pb.ReleaseResponse{
+	resp := &pb.ReleaseResponse{
 		Released: in.holder == "",
-	}, nil
+	}
+	in.mu.Unlock()
+
+	return resp, nil
 }

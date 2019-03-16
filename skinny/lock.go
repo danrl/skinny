@@ -60,8 +60,8 @@ retry:
 	} else {
 		if retries < 3 {
 			retries++
-			backoff := time.Duration(retries*1) * time.Millisecond
-			jitter := time.Duration(rand.Int63n(10000)) * time.Microsecond
+			backoff := time.Duration(retries) * 2 * time.Millisecond
+			jitter := time.Duration(rand.Int63n(1000)) * time.Microsecond
 			fmt.Printf("waiting %v before retry #%v\n", backoff+jitter, retries)
 
 			in.mu.Unlock()

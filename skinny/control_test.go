@@ -34,28 +34,28 @@ func TestInstanceStatusRPC(t *testing.T) {
 	if resp.Name != "foo" {
 		t.Fatalf("expected `%v`, got `%v`", "foo", resp.Name)
 	}
-	if resp.Increment != 3 {
-		t.Errorf("expected `%v`, got `%v`", 3, resp.Increment)
+	if resp.Increment != in.increment {
+		t.Errorf("expected `%v`, got `%v`", in.increment, resp.Increment)
 	}
 	if resp.Timeout != "1s" {
 		t.Errorf("expected `%v`, got `%v`", time.Second, resp.Timeout)
 	}
-	if resp.Promised != 100 {
-		t.Errorf("expected `%v`, got `%v`", 100, resp.Promised)
+	if resp.Promised != in.promised {
+		t.Errorf("expected `%v`, got `%v`", in.promised, resp.Promised)
 	}
-	if resp.ID != 23 {
-		t.Errorf("expected `%v`, got `%v`", 23, resp.ID)
+	if resp.ID != in.id {
+		t.Errorf("expected `%v`, got `%v`", in.id, resp.ID)
 	}
-	if resp.Holder != "alien" {
-		t.Errorf("expected `%v`, got `%v`", "alien", resp.Holder)
+	if resp.Holder != in.holder {
+		t.Errorf("expected `%v`, got `%v`", in.holder, resp.Holder)
 	}
-	if len(resp.Peers) != 2 {
-		t.Errorf("expected `%v` peers, got `%v`", 1, len(resp.Peers))
+	if len(resp.Peers) != len(in.peers) {
+		t.Errorf("expected `%v` peers, got `%v`", len(in.peers), len(resp.Peers))
 	}
-	if resp.Peers[0].Name != "peer-1" {
-		t.Errorf("expected `%v`, got `%v`", "peer-1", resp.Peers[0].Name)
+	if resp.Peers[0].Name != in.peers[0].name {
+		t.Errorf("expected `%v`, got `%v`", in.peers[0].name, resp.Peers[0].Name)
 	}
-	if resp.Peers[1].Name != "peer-2" {
-		t.Errorf("expected `%v`, got `%v`", "peer-2", resp.Peers[1].Name)
+	if resp.Peers[1].Name != in.peers[1].name {
+		t.Errorf("expected `%v`, got `%v`", in.peers[1].name, resp.Peers[1].Name)
 	}
 }

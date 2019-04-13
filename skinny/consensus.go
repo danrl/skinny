@@ -111,13 +111,13 @@ func (in *Instance) propose() bool {
 	}()
 
 	// count the votes
-	yay, nay := 1, 0
+	yea, nay := 1, 0
 	canceled := false
 	for r := range responses {
 		// count the promises
 		if r.promised {
-			yay++
-			fmt.Printf("propose ID %v to %v: got yay\n", in.promised, r.from)
+			yea++
+			fmt.Printf("propose ID %v to %v: got yea\n", in.promised, r.from)
 		} else {
 			nay++
 			fmt.Printf("propose ID %v to %v: got nay\n", in.promised, r.from)
@@ -133,7 +133,7 @@ func (in *Instance) propose() bool {
 		// stop counting as soon as we have a majority
 		if !canceled {
 			// Cancel all in-flight proposal if we have reached a majority.
-			if in.isMajority(yay) || in.isMajority(nay) {
+			if in.isMajority(yea) || in.isMajority(nay) {
 				cancel()
 				canceled = true
 			}
@@ -146,7 +146,7 @@ func (in *Instance) propose() bool {
 		fmt.Printf("jumped to promise ID %v\n", in.promised)
 	}
 
-	return in.isMajority(yay)
+	return in.isMajority(yea)
 }
 
 // commit asks the quorum to accept the acquisition or release of a lock
@@ -205,15 +205,15 @@ func (in *Instance) commit(id uint64, holder string) bool {
 	in.holder = holder
 
 	// count the vote
-	yay := 1 // we just committed our own data. make it count.
+	yea := 1 // we just committed our own data. make it count.
 	for r := range responses {
 		if r.committed {
-			yay++
-			fmt.Printf("commit ID %v and holder `%v` to %v: got yay\n", id, holder, r.from)
+			yea++
+			fmt.Printf("commit ID %v and holder `%v` to %v: got yea\n", id, holder, r.from)
 			continue
 		}
 		fmt.Printf("commit ID %v and holder `%v` to %v: got nay\n", id, holder, r.from)
 	}
 
-	return in.isMajority(yay)
+	return in.isMajority(yea)
 }

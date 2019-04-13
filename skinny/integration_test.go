@@ -72,7 +72,7 @@ func TestIntegration(t *testing.T) {
 	// beaver asks instance-5 for the lock
 	{
 		req := &lock.AcquireRequest{
-			Holder: "beaver",
+			Holder: beaver,
 		}
 		resp, err := quorum[4].in.Acquire(context.Background(), req)
 		if err != nil {
@@ -110,7 +110,7 @@ func TestIntegration(t *testing.T) {
 	// alien asks instance-4 for the lock, but beaver still holds it
 	{
 		req := &lock.AcquireRequest{
-			Holder: "alien",
+			Holder: alien,
 		}
 		resp, err := quorum[3].in.Acquire(context.Background(), req)
 		if err != nil {
@@ -119,15 +119,15 @@ func TestIntegration(t *testing.T) {
 		if resp.Acquired {
 			t.Fatalf("expected `%v`, got `%v`", false, resp.Acquired)
 		}
-		if resp.Holder != "beaver" {
-			t.Fatalf("expected `%v`, got `%v`", "beaver", resp.Holder)
+		if resp.Holder != beaver {
+			t.Fatalf("expected `%v`, got `%v`", beaver, resp.Holder)
 		}
 		// check quorum state
 		good := 0
 		for _, mi := range quorum {
 			if mi.in.promised == quorum[3].in.promised &&
 				mi.in.id == quorum[3].in.promised &&
-				mi.in.holder == "beaver" {
+				mi.in.holder == beaver {
 				good++
 			}
 		}
@@ -163,7 +163,7 @@ func TestIntegration(t *testing.T) {
 	// alien asks instance-4 for the lock
 	{
 		req := &lock.AcquireRequest{
-			Holder: "alien",
+			Holder: alien,
 		}
 		resp, err := quorum[3].in.Acquire(context.Background(), req)
 		if err != nil {

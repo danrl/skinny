@@ -24,20 +24,18 @@ retry:
 			// The lock is not available. Let's commit the learned holder.
 			_ = in.commit(in.promised, in.holder)
 		}
-	} else {
-		if retries < 3 {
-			retries++
-			backoff := time.Duration(retries) * 2 * time.Millisecond
-			jitter := time.Duration(rand.Int63n(1000)) * time.Microsecond
-			fmt.Printf("waiting %v before retry #%v\n", backoff+jitter, retries)
+	} else if retries < 3 {
+		retries++
+		backoff := time.Duration(retries) * 2 * time.Millisecond
+		jitter := time.Duration(rand.Int63n(1000)) * time.Microsecond
+		fmt.Printf("waiting %v before retry #%v\n", backoff+jitter, retries)
 
-			in.mu.Unlock()
-			time.Sleep(backoff + jitter)
-			in.mu.Lock()
+		in.mu.Unlock()
+		time.Sleep(backoff + jitter)
+		in.mu.Lock()
 
-			fmt.Printf("retry #%v\n", retries)
-			goto retry
-		}
+		fmt.Printf("retry #%v\n", retries)
+		goto retry
 	}
 	resp := &pb.AcquireResponse{
 		Acquired: in.holder == req.Holder,
@@ -57,20 +55,18 @@ retry:
 	promised := in.propose()
 	if promised {
 		_ = in.commit(in.promised, "")
-	} else {
-		if retries < 3 {
-			retries++
-			backoff := time.Duration(retries) * 2 * time.Millisecond
-			jitter := time.Duration(rand.Int63n(1000)) * time.Microsecond
-			fmt.Printf("waiting %v before retry #%v\n", backoff+jitter, retries)
+	} else if retries < 3 {
+		retries++
+		backoff := time.Duration(retries) * 2 * time.Millisecond
+		jitter := time.Duration(rand.Int63n(1000)) * time.Microsecond
+		fmt.Printf("waiting %v before retry #%v\n", backoff+jitter, retries)
 
-			in.mu.Unlock()
-			time.Sleep(backoff + jitter)
-			in.mu.Lock()
+		in.mu.Unlock()
+		time.Sleep(backoff + jitter)
+		in.mu.Lock()
 
-			fmt.Printf("retry #%v\n", retries)
-			goto retry
-		}
+		fmt.Printf("retry #%v\n", retries)
+		goto retry
 	}
 	resp := &pb.ReleaseResponse{
 		Released: in.holder == "",

@@ -195,6 +195,7 @@ While you wait, how's the weather today? Well, well...
 * Giraffe and beaver graphics by OpenClipart contributor
   [Lemmling](https://openclipart.org/user-detail/lemmling)
 * Alien graphic by OpenClipart contributor [Anarres](https://openclipart.org/user-detail/anarres)
+* A related talk exists which's slides were improved thanks to helpful comments from John Reese, Ben Appleton, and Peter Júnoš.
 
 
 ## License

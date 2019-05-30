@@ -71,10 +71,10 @@ func TestIntegration(t *testing.T) {
 	 */
 	// beaver asks instance-5 for the lock
 	{
-		req := &lock.AcquireRequest{
+		req := lock.AcquireRequest{
 			Holder: beaver,
 		}
-		resp, err := quorum[4].in.Acquire(context.Background(), req)
+		resp, err := quorum[4].in.Acquire(context.Background(), &req)
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
@@ -109,10 +109,10 @@ func TestIntegration(t *testing.T) {
 	 */
 	// alien asks instance-4 for the lock, but beaver still holds it
 	{
-		req := &lock.AcquireRequest{
+		req := lock.AcquireRequest{
 			Holder: alien,
 		}
-		resp, err := quorum[3].in.Acquire(context.Background(), req)
+		resp, err := quorum[3].in.Acquire(context.Background(), &req)
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
@@ -138,8 +138,8 @@ func TestIntegration(t *testing.T) {
 
 	// beaver tells instance-5 to release the lock
 	{
-		req := &lock.ReleaseRequest{}
-		resp, err := quorum[4].in.Release(context.Background(), req)
+		req := lock.ReleaseRequest{}
+		resp, err := quorum[4].in.Release(context.Background(), &req)
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}
@@ -162,10 +162,10 @@ func TestIntegration(t *testing.T) {
 
 	// alien asks instance-4 for the lock
 	{
-		req := &lock.AcquireRequest{
+		req := lock.AcquireRequest{
 			Holder: alien,
 		}
-		resp, err := quorum[3].in.Acquire(context.Background(), req)
+		resp, err := quorum[3].in.Acquire(context.Background(), &req)
 		if err != nil {
 			t.Fatalf("expected `%v`, got `%v`", nil, err)
 		}

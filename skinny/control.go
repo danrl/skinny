@@ -11,7 +11,7 @@ func (in *Instance) Status(ctx context.Context, req *pb.StatusRequest) (*pb.Stat
 	in.mu.RLock()
 	defer in.mu.RUnlock()
 
-	status := &pb.StatusResponse{
+	status := pb.StatusResponse{
 		Name:      in.name,
 		Increment: in.increment,
 		Timeout:   in.timeout.String(),
@@ -26,5 +26,5 @@ func (in *Instance) Status(ctx context.Context, req *pb.StatusRequest) (*pb.Stat
 		})
 	}
 
-	return status, nil
+	return &status, nil
 }

@@ -9,14 +9,14 @@ import (
 )
 
 func TestInstanceStatusRPC(t *testing.T) {
-	in := &Instance{
+	in := Instance{
 		name:      "foo",
 		increment: 3,
 		timeout:   time.Second,
 		promised:  100,
 		id:        23,
 		holder:    "alien",
-		peers: []*peer{
+		peers: []peer{
 			{
 				name: "peer-1",
 			},

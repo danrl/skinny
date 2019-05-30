@@ -37,13 +37,13 @@ retry:
 		fmt.Printf("retry #%v\n", retries)
 		goto retry
 	}
-	resp := &pb.AcquireResponse{
+	resp := pb.AcquireResponse{
 		Acquired: in.holder == req.Holder,
 		Holder:   in.holder,
 	}
 	in.mu.Unlock()
 
-	return resp, nil
+	return &resp, nil
 }
 
 // Release releases a previously held lock
@@ -68,10 +68,10 @@ retry:
 		fmt.Printf("retry #%v\n", retries)
 		goto retry
 	}
-	resp := &pb.ReleaseResponse{
+	resp := pb.ReleaseResponse{
 		Released: in.holder == "",
 	}
 	in.mu.Unlock()
 
-	return resp, nil
+	return &resp, nil
 }

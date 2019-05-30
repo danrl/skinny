@@ -20,7 +20,7 @@ type Instance struct {
 	promised  uint64
 	id        uint64
 	holder    string
-	peers     []*peer
+	peers     []peer
 	// end protected fields
 }
 
@@ -36,14 +36,14 @@ var (
 
 // New initializes a new skinny instance
 func New(name string, increment uint64, timeout time.Duration) *Instance {
-	in := &Instance{
+	in := Instance{
 		name:      name,
 		increment: increment,
 		timeout:   timeout,
 	}
 
 	fmt.Println("initialized")
-	return in
+	return &in
 }
 
 // AddPeer adds a new peer to the peer list
@@ -59,7 +59,7 @@ func (in *Instance) AddPeer(name string, client pb.ConsensusClient) error {
 	}
 
 	// add peer to the peer list
-	in.peers = append(in.peers, &peer{
+	in.peers = append(in.peers, peer{
 		name:   name,
 		client: client,
 	})

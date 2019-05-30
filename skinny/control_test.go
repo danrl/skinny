@@ -9,7 +9,7 @@ import (
 )
 
 func TestInstanceStatusRPC(t *testing.T) {
-	in := &Instance{
+	in := Instance{
 		name:      "foo",
 		increment: 3,
 		timeout:   time.Second,

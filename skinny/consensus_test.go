@@ -15,7 +15,7 @@ const (
 
 func TestInstancePromiseRPC(t *testing.T) {
 	t.Run("simple promise", func(t *testing.T) {
-		in := &Instance{}
+		var in Instance
 
 		resp, err := in.Promise(context.Background(), &consensus.PromiseRequest{
 			ID: 1,
@@ -35,7 +35,7 @@ func TestInstancePromiseRPC(t *testing.T) {
 	})
 
 	t.Run("simple promise refusal", func(t *testing.T) {
-		in := &Instance{
+		in := Instance{
 			promised: 23,
 			id:       1,
 			holder:   beaver,
@@ -72,7 +72,7 @@ func TestInstancePromiseRPC(t *testing.T) {
 
 func TestInstanceCommitRPC(t *testing.T) {
 	t.Run("simple commit", func(t *testing.T) {
-		in := &Instance{
+		in := Instance{
 			promised: 1,
 		}
 
@@ -89,7 +89,7 @@ func TestInstanceCommitRPC(t *testing.T) {
 	})
 
 	t.Run("simple commit refusal", func(t *testing.T) {
-		in := &Instance{
+		in := Instance{
 			promised: 23,
 			id:       5,
 			holder:   beaver,

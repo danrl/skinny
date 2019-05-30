@@ -74,7 +74,7 @@ func (in *Instance) propose() bool {
 		wg.Add(1)
 
 		// send proposal
-		go func(p *peer) {
+		go func(p peer) {
 			defer wg.Done()
 
 			resp, err := p.client.Promise(ctx, &pb.PromiseRequest{
@@ -167,7 +167,7 @@ func (in *Instance) commit(id uint64, holder string) bool {
 		wg.Add(1)
 
 		// send commit requests
-		go func(p *peer) {
+		go func(p peer) {
 			defer wg.Done()
 
 			resp, err := p.client.Commit(ctx, &pb.CommitRequest{

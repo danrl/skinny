@@ -20,7 +20,7 @@ type Instance struct {
 	promised  uint64
 	id        uint64
 	holder    string
-	peers     []*peer
+	peers     []peer
 	// end protected fields
 }
 
@@ -59,7 +59,7 @@ func (in *Instance) AddPeer(name string, client pb.ConsensusClient) error {
 	}
 
 	// add peer to the peer list
-	in.peers = append(in.peers, &peer{
+	in.peers = append(in.peers, peer{
 		name:   name,
 		client: client,
 	})

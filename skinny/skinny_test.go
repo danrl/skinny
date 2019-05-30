@@ -161,7 +161,7 @@ func TestInstanceIsMajority(t *testing.T) {
 	t.Run("two instances", func(t *testing.T) {
 		var in Instance
 
-		in.peers = append(in.peers, &peer{})
+		in.peers = append(in.peers, peer{})
 		if got := in.isMajority(0); got {
 			t.Errorf("expected `%v`, got `%v`", false, got)
 		}
@@ -176,7 +176,7 @@ func TestInstanceIsMajority(t *testing.T) {
 	t.Run("quorum of odd instances", func(t *testing.T) {
 		var in Instance
 
-		in.peers = append(in.peers, &peer{}, &peer{})
+		in.peers = append(in.peers, peer{}, peer{})
 		if got := in.isMajority(0); got {
 			t.Errorf("expected `%v`, got `%v`", false, got)
 		}
@@ -194,7 +194,7 @@ func TestInstanceIsMajority(t *testing.T) {
 	t.Run("quorum of even instances", func(t *testing.T) {
 		var in Instance
 
-		in.peers = append(in.peers, &peer{}, &peer{}, &peer{})
+		in.peers = append(in.peers, peer{}, peer{}, peer{})
 		if got := in.isMajority(0); got {
 			t.Errorf("expected `%v`, got `%v`", false, got)
 		}

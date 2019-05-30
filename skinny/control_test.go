@@ -16,7 +16,7 @@ func TestInstanceStatusRPC(t *testing.T) {
 		promised:  100,
 		id:        23,
 		holder:    "alien",
-		peers: []*peer{
+		peers: []peer{
 			{
 				name: "peer-1",
 			},

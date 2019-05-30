@@ -12,7 +12,7 @@ import (
 
 func TestInstanceAcquireRPC(t *testing.T) {
 	t.Run("lock available", func(t *testing.T) {
-		in := &Instance{}
+		var in Instance
 
 		resp, err := in.Acquire(context.Background(), &lock.AcquireRequest{
 			Holder: "alien",
@@ -29,7 +29,7 @@ func TestInstanceAcquireRPC(t *testing.T) {
 	})
 
 	t.Run("lock already taken", func(t *testing.T) {
-		in := &Instance{
+		in := Instance{
 			promised: 23,
 			id:       23,
 			holder:   "beaver",
@@ -90,7 +90,7 @@ func TestInstanceAcquireRPC(t *testing.T) {
 
 func TestInstanceReleaseRPC(t *testing.T) {
 	t.Run("lock not taken", func(t *testing.T) {
-		in := &Instance{}
+		var in Instance
 
 		resp, err := in.Release(context.Background(), &lock.ReleaseRequest{})
 		if err != nil {
@@ -102,7 +102,7 @@ func TestInstanceReleaseRPC(t *testing.T) {
 	})
 
 	t.Run("lock taken", func(t *testing.T) {
-		in := &Instance{
+		in := Instance{
 			promised: 23,
 			id:       23,
 			holder:   "beaver",

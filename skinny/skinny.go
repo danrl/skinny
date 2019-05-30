@@ -36,14 +36,14 @@ var (
 
 // New initializes a new skinny instance
 func New(name string, increment uint64, timeout time.Duration) *Instance {
-	in := &Instance{
+	in := Instance{
 		name:      name,
 		increment: increment,
 		timeout:   timeout,
 	}
 
 	fmt.Println("initialized")
-	return in
+	return &in
 }
 
 // AddPeer adds a new peer to the peer list

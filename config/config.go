@@ -49,12 +49,13 @@ type QuorumConfig struct {
 
 // NewInstanceConfig loads a Skinny instance configuration from given file
 func NewInstanceConfig(fname string) (*InstanceConfig, error) {
-	cfg := &InstanceConfig{}
+	var cfg InstanceConfig
+
 	data, err := ioutil.ReadFile(fname)
 	if err != nil {
 		return nil, err
 	}
-	err = yaml.UnmarshalStrict(data, cfg)
+	err = yaml.UnmarshalStrict(data, &cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +72,7 @@ func NewInstanceConfig(fname string) (*InstanceConfig, error) {
 		return nil, err
 	}
 
-	return cfg, nil
+	return &cfg, nil
 }
 
 // NewQuorumConfig loads a Skinny quorum configuration from given file

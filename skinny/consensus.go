@@ -13,7 +13,7 @@ func (in *Instance) Promise(ctx context.Context, req *pb.PromiseRequest) (*pb.Pr
 	in.mu.Lock()
 	defer in.mu.Unlock()
 
-	promise := &pb.PromiseResponse{}
+	var promise pb.PromiseResponse
 	attachment := ""
 
 	// attach previously committed values if there has been consensus in the past
@@ -31,7 +31,7 @@ func (in *Instance) Promise(ctx context.Context, req *pb.PromiseRequest) (*pb.Pr
 		fmt.Printf("did not promise ID %v%v\n", req.ID, attachment)
 	}
 
-	return promise, nil
+	return &promise, nil
 }
 
 // Commit commits the value for a previously promised ID

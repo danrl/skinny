@@ -12,7 +12,7 @@ import (
 
 // Instance represents a skinny distributed lock management service instance
 type Instance struct {
-	mu sync.RWMutex
+	mu sync.Mutex
 	// begin protected fields
 	name      string
 	increment uint64

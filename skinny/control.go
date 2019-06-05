@@ -8,8 +8,8 @@ import (
 
 // Status exposes internal state information of an instance
 func (in *Instance) Status(ctx context.Context, req *pb.StatusRequest) (*pb.StatusResponse, error) {
-	in.mu.RLock()
-	defer in.mu.RUnlock()
+	in.mu.Lock()
+	defer in.mu.Unlock()
 
 	status := pb.StatusResponse{
 		Name:      in.name,

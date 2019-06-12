@@ -3,7 +3,7 @@
 resource "google_compute_instance" "default" {
   name         = "skinny-${var.name}"
   machine_type = "f1-micro"
- 
+
   zone = "${var.zone}"
 
   tags = ["skinny", "skinny-${var.name}"]
@@ -34,6 +34,7 @@ resource "google_compute_instance" "default" {
       "sudo apt-get install -y python", // for ansible
     ]
     connection {
+      host        = "self.public_ip"
       type        = "ssh"
       user        = "${var.ssh_user}"
       private_key = "${file(var.ssh_private_key_path)}"

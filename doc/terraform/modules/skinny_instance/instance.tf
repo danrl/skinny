@@ -34,7 +34,7 @@ resource "google_compute_instance" "default" {
       "sudo apt-get install -y python", // for ansible
     ]
     connection {
-      host        = "self.public_ip"
+      host        = "${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}"
       type        = "ssh"
       user        = "${var.ssh_user}"
       private_key = "${file(var.ssh_private_key_path)}"

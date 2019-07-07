@@ -64,18 +64,18 @@ WantedBy=multi-user.target
 EOF'
 
 # enable systemd services
-sudo systemctl enable skinny@satsuki.service
-sudo systemctl enable skinny@mei.service
-sudo systemctl enable skinny@totoro.service
-sudo systemctl enable skinny@kanta.service
 sudo systemctl enable skinny@catbus.service
+sudo systemctl enable skinny@kanta.service
+sudo systemctl enable skinny@mei.service
+sudo systemctl enable skinny@satsuki.service
+sudo systemctl enable skinny@totoro.service
 
 # start systemd services
-sudo systemctl start skinny@satsuki.service
-sudo systemctl start skinny@mei.service
-sudo systemctl start skinny@totoro.service
-sudo systemctl start skinny@kanta.service
 sudo systemctl start skinny@catbus.service
+sudo systemctl start skinny@kanta.service
+sudo systemctl start skinny@mei.service
+sudo systemctl start skinny@satsuki.service
+sudo systemctl start skinny@totoro.service
 
 # test quorum is working
 sleep 30

@@ -132,7 +132,7 @@ func (in *Instance) propose() bool {
 
 		// stop counting as soon as we have a majority
 		if !canceled {
-			// Cancel all in-flight proposal if we have reached a majority.
+			// cancel all in-flight proposals if we have reached a majority
 			if in.isMajority(yea) || in.isMajority(nay) {
 				cancel()
 				canceled = true
@@ -140,7 +140,7 @@ func (in *Instance) propose() bool {
 		}
 	}
 
-	// if we learned a ID than our initial proposal suggested, then we also promise this higher ID
+	// if we learned a higher ID than our initial proposal suggested, then we also promise this higher ID
 	if in.id > in.promised {
 		in.promised = in.id
 		fmt.Printf("jumped to promise ID %v\n", in.promised)
@@ -194,7 +194,7 @@ func (in *Instance) commit(id uint64, holder string) bool {
 		}(p)
 	}
 
-	// close responses channel once all reponses have been received, failed, or canceled
+	// close responses channel once all responses have been received, failed, or canceled
 	go func() {
 		wg.Wait()
 		close(responses)

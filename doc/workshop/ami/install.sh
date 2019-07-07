@@ -56,7 +56,7 @@ Description=Skinny Instance %I
 
 [Service]
 Type=simple
-ExecStart=/home/ubuntu/skinny/bin/skinnyd --config=/home/ubuntu/skinny/doc/workshop/skinnyd/%i.yml
+ExecStart=/home/ubuntu/skinny/bin/skinnyd --config=/home/ubuntu/skinny/doc/workshop/configs/%i.yml
 Restart=on-failure
 
 [Install]
@@ -76,11 +76,11 @@ sudo systemctl start skinny@mei.service
 sudo systemctl start skinny@totoro.service
 sudo systemctl start skinny@kanta.service
 sudo systemctl start skinny@catbus.service
-sleep 10
 
 # test quorum is working
+sleep 30
 /home/ubuntu/skinny/bin/skinnyctl --config=/home/ubuntu/skinny/doc/workshop/quorum.yml status
-sleep 5
+sleep 10
 /home/ubuntu/skinny/bin/skinnyctl --config=/home/ubuntu/skinny/doc/workshop/quorum.yml acquire beaver
-sleep 5
+sleep 10
 /home/ubuntu/skinny/bin/skinnyctl --config=/home/ubuntu/skinny/doc/workshop/quorum.yml status

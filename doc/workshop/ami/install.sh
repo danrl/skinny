@@ -16,7 +16,7 @@ sudo apt-get install -y build-essential
 # configure go language
 echo "export GOROOT=/usr/local/go" >> ~/.profile
 echo "export GOPATH=\$HOME/go" >> ~/.profile
-echo "export PATH=\$GOPATH/bin:\$GOROOT/bin:\$PATH" >> ~/.profile
+echo "export PATH=\$GOPATH/bin:\$GOROOT/bin:/home/ubuntu/skinny/bin:\$PATH" >> ~/.profile
 source ~/.profile
 
 # validate go language installation

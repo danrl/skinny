@@ -39,7 +39,7 @@ go env
 )
 
 # download skinny source code
-git clone --single-branch --branch workshop-configs https://github.com/danrl/skinny.git ~/skinny
+git clone https://github.com/danrl/skinny.git ~/skinny
 
 # build skinny
 (

@@ -3,7 +3,9 @@ package skinny
 import (
 	"context"
 	"fmt"
+	"math/rand"
 	"sync"
+	"time"
 
 	pb "github.com/danrl/skinny/proto/consensus"
 )
@@ -30,6 +32,13 @@ func (in *Instance) Promise(ctx context.Context, req *pb.PromiseRequest) (*pb.Pr
 	} else {
 		fmt.Printf("did not promise ID %v%v\n", req.ID, attachment)
 	}
+
+	// - - - - - - - - - BEGIN WORKSHOP CODE - - - - - - - - -
+	// This simulates a very slow network connection in order to be able to run
+	// the experiment on localhost in a meaningful way.
+	artificialDelay := time.Duration(rand.Int63n(15)) * time.Second
+	time.Sleep(artificialDelay)
+	// - - - - - - - - - END WORKSHOP CODE - - - - - - - - -
 
 	return &promise, nil
 }
@@ -64,11 +73,7 @@ func (in *Instance) propose() bool {
 	in.promised += in.increment
 
 	responses := make(chan *response)
-	ctx, cancel := context.WithTimeout(context.Background(), in.timeout)
-	// We cancel as soon as we have a majority to speed things up.
-	// We always cancel before leaving the function to prevent a context leak.
-	defer cancel()
-
+	// - - - - - - - - - BEGIN WORKSHOP CODE - - - - - - - - -
 	wg := sync.WaitGroup{}
 	for _, p := range in.peers {
 		wg.Add(1)
@@ -77,20 +82,14 @@ func (in *Instance) propose() bool {
 		go func(p peer) {
 			defer wg.Done()
 
+			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+			defer cancel()
+
 			resp, err := p.client.Promise(ctx, &pb.PromiseRequest{
 				ID: in.promised,
 			})
 			fmt.Printf("propose ID %v to %v: sent\n", in.promised, p.name)
 			if err != nil {
-				if ctx.Err() == context.Canceled {
-					fmt.Printf("propose ID %v to %v: canceled\n", in.promised, p.name)
-					return
-				}
-				// We want errors which are not the result of a canceled
-				// proposal to be counted as a negative answer (nay) later.
-				// For that we emit an empty response into the channel in those
-				// cases.
-				responses <- &response{from: p.name}
 				fmt.Printf("propose ID %v to %v: %v\n", in.promised, p.name, err)
 				return
 			}
@@ -103,24 +102,19 @@ func (in *Instance) propose() bool {
 		}(p)
 	}
 
-	// close responses channel once all responses have been received, failed, or
-	// canceled
+	// close responses channel once all responses have been received
 	go func() {
 		wg.Wait()
 		close(responses)
 	}()
 
 	// count the votes
-	yea, nay := 1, 0
-	canceled := false
+	yea := 1
 	for r := range responses {
 		// count the promises
 		if r.promised {
 			yea++
 			fmt.Printf("propose ID %v to %v: got yea\n", in.promised, r.from)
-		} else {
-			nay++
-			fmt.Printf("propose ID %v to %v: got nay\n", in.promised, r.from)
 		}
 
 		// learn previously committed ID and holder from other instances
@@ -129,15 +123,6 @@ func (in *Instance) propose() bool {
 			in.holder = r.holder
 			fmt.Printf("propose ID %v to %v: learned ID %v and holder `%v`\n", in.promised, r.from, r.id, r.holder)
 		}
-
-		// stop counting as soon as we have a majority
-		if !canceled {
-			// cancel all in-flight proposals if we have reached a majority
-			if in.isMajority(yea) || in.isMajority(nay) {
-				cancel()
-				canceled = true
-			}
-		}
 	}
 
 	// if we learned a higher ID than our initial proposal suggested, then we also promise this higher ID
@@ -145,6 +130,7 @@ func (in *Instance) propose() bool {
 		in.promised = in.id
 		fmt.Printf("jumped to promise ID %v\n", in.promised)
 	}
+	// - - - - - - - - - END WORKSHOP CODE - - - - - - - - -
 
 	return in.isMajority(yea)
 }

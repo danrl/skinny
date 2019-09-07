@@ -9,8 +9,10 @@
 *.tfstate
 *.tfstate.*
 
-
 # macos
 .DS_Store
 .DS_Store?
 ._*
+
+# visual studio code
+.vscode

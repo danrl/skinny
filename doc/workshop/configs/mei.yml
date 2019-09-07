@@ -1,0 +1,14 @@
+---
+name: mei
+increment: 3
+timeout: 500ms
+listen: 0.0.0.0:9003
+peers:
+- name: catbus
+  address: 127.0.0.1:9001
+- name: kanta
+  address: 127.0.0.1:9002
+- name: satsuki
+  address: 127.0.0.1:9004
+- name: totoro
+  address: 127.0.0.1:9005

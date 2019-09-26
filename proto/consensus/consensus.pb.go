@@ -3,13 +3,14 @@
 
 package consensus
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
-
 import (
-	context "golang.org/x/net/context"
+	context "context"
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
+	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -21,7 +22,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 // Phase 1: Promise
 type PromiseRequest struct {
@@ -35,16 +36,17 @@ func (m *PromiseRequest) Reset()         { *m = PromiseRequest{} }
 func (m *PromiseRequest) String() string { return proto.CompactTextString(m) }
 func (*PromiseRequest) ProtoMessage()    {}
 func (*PromiseRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_consensus_30bfb362b0701dc3, []int{0}
+	return fileDescriptor_292e7e1f14c44e53, []int{0}
 }
+
 func (m *PromiseRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PromiseRequest.Unmarshal(m, b)
 }
 func (m *PromiseRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_PromiseRequest.Marshal(b, m, deterministic)
 }
-func (dst *PromiseRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_PromiseRequest.Merge(dst, src)
+func (m *PromiseRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PromiseRequest.Merge(m, src)
 }
 func (m *PromiseRequest) XXX_Size() int {
 	return xxx_messageInfo_PromiseRequest.Size(m)
@@ -77,16 +79,17 @@ func (m *PromiseResponse) Reset()         { *m = PromiseResponse{} }
 func (m *PromiseResponse) String() string { return proto.CompactTextString(m) }
 func (*PromiseResponse) ProtoMessage()    {}
 func (*PromiseResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_consensus_30bfb362b0701dc3, []int{1}
+	return fileDescriptor_292e7e1f14c44e53, []int{1}
 }
+
 func (m *PromiseResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PromiseResponse.Unmarshal(m, b)
 }
 func (m *PromiseResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_PromiseResponse.Marshal(b, m, deterministic)
 }
-func (dst *PromiseResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_PromiseResponse.Merge(dst, src)
+func (m *PromiseResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PromiseResponse.Merge(m, src)
 }
 func (m *PromiseResponse) XXX_Size() int {
 	return xxx_messageInfo_PromiseResponse.Size(m)
@@ -131,16 +134,17 @@ func (m *CommitRequest) Reset()         { *m = CommitRequest{} }
 func (m *CommitRequest) String() string { return proto.CompactTextString(m) }
 func (*CommitRequest) ProtoMessage()    {}
 func (*CommitRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_consensus_30bfb362b0701dc3, []int{2}
+	return fileDescriptor_292e7e1f14c44e53, []int{2}
 }
+
 func (m *CommitRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CommitRequest.Unmarshal(m, b)
 }
 func (m *CommitRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_CommitRequest.Marshal(b, m, deterministic)
 }
-func (dst *CommitRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CommitRequest.Merge(dst, src)
+func (m *CommitRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CommitRequest.Merge(m, src)
 }
 func (m *CommitRequest) XXX_Size() int {
 	return xxx_messageInfo_CommitRequest.Size(m)
@@ -176,16 +180,17 @@ func (m *CommitResponse) Reset()         { *m = CommitResponse{} }
 func (m *CommitResponse) String() string { return proto.CompactTextString(m) }
 func (*CommitResponse) ProtoMessage()    {}
 func (*CommitResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_consensus_30bfb362b0701dc3, []int{3}
+	return fileDescriptor_292e7e1f14c44e53, []int{3}
 }
+
 func (m *CommitResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CommitResponse.Unmarshal(m, b)
 }
 func (m *CommitResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_CommitResponse.Marshal(b, m, deterministic)
 }
-func (dst *CommitResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CommitResponse.Merge(dst, src)
+func (m *CommitResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CommitResponse.Merge(m, src)
 }
 func (m *CommitResponse) XXX_Size() int {
 	return xxx_messageInfo_CommitResponse.Size(m)
@@ -208,6 +213,25 @@ func init() {
 	proto.RegisterType((*PromiseResponse)(nil), "PromiseResponse")
 	proto.RegisterType((*CommitRequest)(nil), "CommitRequest")
 	proto.RegisterType((*CommitResponse)(nil), "CommitResponse")
+}
+
+func init() { proto.RegisterFile("proto/consensus/consensus.proto", fileDescriptor_292e7e1f14c44e53) }
+
+var fileDescriptor_292e7e1f14c44e53 = []byte{
+	// 205 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x2f, 0x28, 0xca, 0x2f,
+	0xc9, 0xd7, 0x4f, 0xce, 0xcf, 0x2b, 0x4e, 0xcd, 0x2b, 0x2e, 0x2d, 0x46, 0xb0, 0xf4, 0xc0, 0x32,
+	0x4a, 0x0a, 0x5c, 0x7c, 0x01, 0x45, 0xf9, 0xb9, 0x99, 0xc5, 0xa9, 0x41, 0xa9, 0x85, 0xa5, 0xa9,
+	0xc5, 0x25, 0x42, 0x7c, 0x5c, 0x4c, 0x9e, 0x2e, 0x12, 0x8c, 0x0a, 0x8c, 0x1a, 0x2c, 0x41, 0x4c,
+	0x9e, 0x2e, 0x4a, 0xa1, 0x5c, 0xfc, 0x70, 0x15, 0xc5, 0x05, 0x20, 0xed, 0x42, 0x52, 0x5c, 0x1c,
+	0x50, 0xa1, 0x14, 0xb0, 0x42, 0x8e, 0x20, 0x38, 0x1f, 0xaa, 0x9d, 0x09, 0xa6, 0x5d, 0x48, 0x8c,
+	0x8b, 0xcd, 0x23, 0x3f, 0x27, 0x25, 0xb5, 0x48, 0x82, 0x59, 0x81, 0x51, 0x83, 0x33, 0x08, 0xca,
+	0x53, 0x32, 0xe7, 0xe2, 0x75, 0xce, 0xcf, 0xcd, 0xcd, 0x2c, 0xc1, 0x61, 0x2f, 0x92, 0x46, 0x26,
+	0x14, 0x8d, 0x7a, 0x5c, 0x7c, 0x30, 0x8d, 0x50, 0xe7, 0xc8, 0x70, 0x71, 0x42, 0x44, 0x4a, 0xe0,
+	0xee, 0x41, 0x08, 0x18, 0xa5, 0x80, 0x64, 0xa1, 0x9e, 0x16, 0xd2, 0xe1, 0x62, 0x87, 0xba, 0x54,
+	0x88, 0x5f, 0x0f, 0xd5, 0xe3, 0x52, 0x02, 0x7a, 0xe8, 0xfe, 0xd4, 0xe4, 0x62, 0x83, 0x98, 0x23,
+	0xc4, 0xa7, 0x87, 0xe2, 0x58, 0x29, 0x7e, 0x3d, 0x54, 0x37, 0x24, 0xb1, 0x81, 0x83, 0xd3, 0x18,
+	0x10, 0x00, 0x00, 0xff, 0xff, 0x24, 0x9b, 0x21, 0xc4, 0x71, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -256,6 +280,17 @@ func (c *consensusClient) Commit(ctx context.Context, in *CommitRequest, opts ..
 type ConsensusServer interface {
 	Promise(context.Context, *PromiseRequest) (*PromiseResponse, error)
 	Commit(context.Context, *CommitRequest) (*CommitResponse, error)
+}
+
+// UnimplementedConsensusServer can be embedded to have forward compatible implementations.
+type UnimplementedConsensusServer struct {
+}
+
+func (*UnimplementedConsensusServer) Promise(ctx context.Context, req *PromiseRequest) (*PromiseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Promise not implemented")
+}
+func (*UnimplementedConsensusServer) Commit(ctx context.Context, req *CommitRequest) (*CommitResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Commit not implemented")
 }
 
 func RegisterConsensusServer(s *grpc.Server, srv ConsensusServer) {
@@ -313,25 +348,4 @@ var _Consensus_serviceDesc = grpc.ServiceDesc{
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "proto/consensus/consensus.proto",
-}
-
-func init() {
-	proto.RegisterFile("proto/consensus/consensus.proto", fileDescriptor_consensus_30bfb362b0701dc3)
-}
-
-var fileDescriptor_consensus_30bfb362b0701dc3 = []byte{
-	// 205 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x2f, 0x28, 0xca, 0x2f,
-	0xc9, 0xd7, 0x4f, 0xce, 0xcf, 0x2b, 0x4e, 0xcd, 0x2b, 0x2e, 0x2d, 0x46, 0xb0, 0xf4, 0xc0, 0x32,
-	0x4a, 0x0a, 0x5c, 0x7c, 0x01, 0x45, 0xf9, 0xb9, 0x99, 0xc5, 0xa9, 0x41, 0xa9, 0x85, 0xa5, 0xa9,
-	0xc5, 0x25, 0x42, 0x7c, 0x5c, 0x4c, 0x9e, 0x2e, 0x12, 0x8c, 0x0a, 0x8c, 0x1a, 0x2c, 0x41, 0x4c,
-	0x9e, 0x2e, 0x4a, 0xa1, 0x5c, 0xfc, 0x70, 0x15, 0xc5, 0x05, 0x20, 0xed, 0x42, 0x52, 0x5c, 0x1c,
-	0x50, 0xa1, 0x14, 0xb0, 0x42, 0x8e, 0x20, 0x38, 0x1f, 0xaa, 0x9d, 0x09, 0xa6, 0x5d, 0x48, 0x8c,
-	0x8b, 0xcd, 0x23, 0x3f, 0x27, 0x25, 0xb5, 0x48, 0x82, 0x59, 0x81, 0x51, 0x83, 0x33, 0x08, 0xca,
-	0x53, 0x32, 0xe7, 0xe2, 0x75, 0xce, 0xcf, 0xcd, 0xcd, 0x2c, 0xc1, 0x61, 0x2f, 0x92, 0x46, 0x26,
-	0x14, 0x8d, 0x7a, 0x5c, 0x7c, 0x30, 0x8d, 0x50, 0xe7, 0xc8, 0x70, 0x71, 0x42, 0x44, 0x4a, 0xe0,
-	0xee, 0x41, 0x08, 0x18, 0xa5, 0x80, 0x64, 0xa1, 0x9e, 0x16, 0xd2, 0xe1, 0x62, 0x87, 0xba, 0x54,
-	0x88, 0x5f, 0x0f, 0xd5, 0xe3, 0x52, 0x02, 0x7a, 0xe8, 0xfe, 0xd4, 0xe4, 0x62, 0x83, 0x98, 0x23,
-	0xc4, 0xa7, 0x87, 0xe2, 0x58, 0x29, 0x7e, 0x3d, 0x54, 0x37, 0x24, 0xb1, 0x81, 0x83, 0xd3, 0x18,
-	0x10, 0x00, 0x00, 0xff, 0xff, 0x24, 0x9b, 0x21, 0xc4, 0x71, 0x01, 0x00, 0x00,
 }

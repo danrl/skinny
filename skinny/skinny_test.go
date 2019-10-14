@@ -43,7 +43,7 @@ func newMockInstance(t *testing.T, name string, increment uint64, timeout time.D
 	mi.listener = bufconn.Listen(8 * 1024 * 1024)
 
 	// client connection
-	mi.conn, err = grpc.Dial("bufconn", grpc.WithDialer(mi.dialer), grpc.WithUnaryInterceptor(
+	mi.conn, err = grpc.Dial("bufconn", grpc.WithContextDialer(mi.dialer), grpc.WithUnaryInterceptor(
 		func(
 			ctx context.Context,
 			method string,
@@ -77,7 +77,7 @@ func newMockInstance(t *testing.T, name string, increment uint64, timeout time.D
 	return &mi
 }
 
-func (mi *mockInstance) dialer(string, time.Duration) (net.Conn, error) {
+func (mi *mockInstance) dialer(context.Context, string) (net.Conn, error) {
 	return mi.listener.Dial()
 }
 

@@ -1,6 +1,6 @@
 # The Skinny Distributed Lock Service
 
-[![Actions Status](https://github.com/danrl/skinny/workflows/go/badge.svg)](https://github.com/danrl/skinny/actions
+![Build](https://github.com/danrl/skinny/workflows/Build/badge.svg)
 [![codecov](https://codecov.io/gh/danrl/skinny/branch/master/graph/badge.svg?token=u9RZS2ts8s)](https://codecov.io/gh/danrl/skinny)
 [![Go Report Card](https://goreportcard.com/badge/github.com/danrl/skinny)](https://goreportcard.com/report/github.com/danrl/skinny)
 [![GoDoc](https://godoc.org/github.com/danrl/skinny?status.svg)](https://godoc.org/github.com/danrl/skinny)
